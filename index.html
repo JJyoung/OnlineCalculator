@@ -78,7 +78,14 @@
       // 初始化全局变量
       let expression = '';
 
-      // 将字符添加到表达式中
-      function addToExpression(char) {
+       // 将字符添加到表达式中
+       function addToExpression(char) {
         expression += char;
-        document.getElementById('result').value = expression
+        document.getElementById('result').value = expression;
+      }
+
+      // 清除表达式和结果
+      function clearAll() {
+        expression = '';
+        document.getElementById('result').value = '';
+      }
