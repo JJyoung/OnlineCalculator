@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>在线计算器</title>
     <style>
       /* 设置计算器样式 */
@@ -43,113 +43,160 @@
         padding: 5px;
         box-sizing: border-box;
       }
+      input {
+        background-color: #272727;
+        color: #fff;
+        border: none;
+        font-size: 24px;
+        padding: 10px 20px;
+        margin: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: all 0.2s ease-out;
+      }
+
+      /* 设置按钮悬停样式 */
+      input:hover {
+        background-color: #fff;
+        color: #272727;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+        transform: translateY(-2px);
+      }
+
+      /* 设置按钮按下样式 */
+      input:active {
+        transform: translateY(2px);
+        box-shadow: none;
+      }
+
+      /* 设置按钮动画效果 */
+      .animated {
+        animation: pulse 1s ease-out infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+        }
+      }
     </style>
   </head>
+
   <body>
     <div id="calculator">
       <h2>在线计算器</h2>
-      <input type="text" id="result" disabled>
-      <input type="button" value="C" onclick="clearAll()">
-      <input type="button" value="(" onclick="addToExpression('(')">
-      <input type="button" value=")" onclick="addToExpression(')')">
-      <input type="button" value="/" onclick="addToExpression('/')">
-      <br>
-      <input type="button" value="7" onclick="addToExpression(7)">
-      <input type="button" value="8" onclick="addToExpression(8)">
-      <input type="button" value="9" onclick="addToExpression(9)">
-      <input type="button" value="*" onclick="addToExpression('*')">
-      <br>
-      <input type="button" value="4" onclick="addToExpression(4)">
-      <input type="button" value="5" onclick="addToExpression(5)">
-      <input type="button" value="6" onclick="addToExpression(6)">
-      <input type="button" value="-" onclick="addToExpression('-')">
-      <br>
-      <input type="button" value="1" onclick="addToExpression(1)">
-      <input type="button" value="2" onclick="addToExpression(2)">
-      <input type="button" value="3" onclick="addToExpression(3)">
-      <input type="button" value="+" onclick="addToExpression('+')">
-      <br>
-      <input type="button" value="0" onclick="addToExpression(0)">
-      <input type="button" value="." onclick="addToExpression('.')">
-      <input type="button" value="=" onclick="calculate()">
+      <input type="text" id="result" disabled />
+      <input type="button" value="C" onclick="clearAll()" />
+      <input type="button" value="(" onclick="addToExpression('(')" />
+      <input type="button" value=")" onclick="addToExpression(')')" />
+      <input type="button" value="/" onclick="addToExpression('/')" />
+      <br />
+      <input type="button" value="7" onclick="addToExpression(7)" />
+      <input type="button" value="8" onclick="addToExpression(8)" />
+      <input type="button" value="9" onclick="addToExpression(9)" />
+      <input type="button" value="*" onclick="addToExpression('*')" />
+      <br />
+      <input type="button" value="4" onclick="addToExpression(4)" />
+      <input type="button" value="5" onclick="addToExpression(5)" />
+      <input type="button" value="6" onclick="addToExpression(6)" />
+      <input type="button" value="-" onclick="addToExpression('-')" />
+      <br />
+      <input type="button" value="1" onclick="addToExpression(1)" />
+      <input type="button" value="2" onclick="addToExpression(2)" />
+      <input type="button" value="3" onclick="addToExpression(3)" />
+      <input type="button" value="+" onclick="addToExpression('+')" />
+      <br />
+      <input type="button" value="0" onclick="addToExpression(0)" />
+      <input type="button" value="." onclick="addToExpression('.')" />
+      <input type="button" value="=" onclick="calculate()" />
     </div>
 
     <script>
       // 初始化全局变量
-      let expression = '';
+      let expression = "";
 
-       // 将字符添加到表达式中
-       function addToExpression(char) {
+      // 将字符添加到表达式中
+      function addToExpression(char) {
         expression += char;
-        document.getElementById('result').value = expression;
+        document.getElementById("result").value = expression;
       }
 
       // 清除表达式和结果
       function clearAll() {
-        expression = '';
-        document.getElementById('result').value = '';
+        expression = "";
+        document.getElementById("result").value = "";
       }
+
+      // 计算方法
       function evaluate(expression) {
-        let result = 0;
-        let operator = '+';
-        let i = 0;
-        while (i < expression.length) {
-          const char = expression[i];
-          if (char === '(') {
-            let j = i + 1;
-            let count = 1;
-            while (j < expression.length) {
-              if (expression[j] === '(') {
-                count++;
-              } else if (expression[j] === ')') {
-                count--;
-                if (count === 0) {
-                  break;
-                }
-              }
-              j++;
+        const tokens = expression
+          .split(/([+\-*/()])/)
+          .filter((token) => token !== "");
+        const stack = [];
+        const operators = {
+          "+": {
+            precedence: 1,
+            execute: (a, b) => a + b,
+          },
+          "-": {
+            precedence: 1,
+            execute: (a, b) => a - b,
+          },
+          "*": {
+            precedence: 2,
+            execute: (a, b) => a * b,
+          },
+          "/": {
+            precedence: 2,
+            execute: (a, b) => a / b,
+          },
+        };
+
+        tokens.forEach((token) => {
+          if (!isNaN(token)) {
+            stack.push(parseFloat(token));
+          } else if (token === "(") {
+            stack.push(token);
+          } else if (token === ")") {
+            while (stack[stack.length - 2] !== "(") {
+              const b = stack.pop();
+              const op = stack.pop();
+              const a = stack.pop();
+              stack.push(operators[op].execute(a, b));
             }
-            const subExpression = expression.substring(i + 1, j);
-            const subResult = evaluate(subExpression);
-            if (operator === '+') {
-              result += subResult;
-            } else if (operator === '-') {
-              result -= subResult;
-            } else if (operator === '*') {
-              result *= subResult;
-            } else if (operator === '/') {
-              result /= subResult;
-            }
-            i = j + 1;
-            if (i < expression.length) {
-              operator = expression[i];
-            }
-          } else if (char === '+' || char === '-' || char === '*' || char === '/') {
-            operator = char;
-            i++;
+            stack.pop();
           } else {
-            let j = i + 1;
-            while (j < expression.length && !isNaN(expression[j])) {
-              j++;
+            while (
+              stack.length > 1 &&
+              operators[stack[stack.length - 1]].precedence >=
+                operators[token].precedence
+            ) {
+              const b = stack.pop();
+              const op = stack.pop();
+              const a = stack.pop();
+              stack.push(operators[op].execute(a, b));
             }
-            const number = parseFloat(expression.substring(i, j));
-            if (operator === '+') {
-              result += number;
-            } else if (operator === '-') {
-              result -= number;
-            } else if (operator === '*') {
-              result *= number;
-            } else if (operator === '/') {
-              result /= number;
-            }
-            i = j;
-            if (i < expression.length) {
-              operator = expression[i];
-            }
+            stack.push(token);
           }
+        });
+
+        while (stack.length > 1) {
+          const b = stack.pop();
+          const op = stack.pop();
+          const a = stack.pop();
+          stack.push(operators[op].execute(a, b));
         }
-        return result;
+
+        return stack[0];
       }
+
       // 将所有小数点后保留两位小数
       expression = expression.replace(/(\d+\.\d+)|(\.\d+)/g, (match) => {
         return parseFloat(match).toFixed(2);
@@ -159,17 +206,18 @@
       function calculate() {
         try {
           // 删除表达式中的空格
-          expression = expression.replace(/\s/g, '');
+          expression = expression.replace(/\s/g, "");
           // 添加乘法运算符
-          expression = expression.replace(/(\d+)(\()|(\))(\d+)/g, '$1*$2');
+          expression = expression.replace(/(\d+)(\()|(\))(\d+)/g, "$1*$2");
           const result = evaluate(expression);
           expression = result.toString();
           // 将结果保留两位小数
           result.toFixed(2);
-          document.getElementById('result').value = result;
+          expression = result.toString();
+          document.getElementById("result").value = result.toFixed(2);
         } catch (error) {
-          expression = '';
-          document.getElementById('result').value = '错误';
+          expression = "";
+          document.getElementById("result").value = "错误";
         }
       }
 
@@ -187,6 +235,3 @@
     </script>
   </body>
 </html>
-
-
-
