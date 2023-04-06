@@ -1,88 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>在线计算器</title>
-    <style type="text/css">
-        #calculator {
-            width: 300px;
-            height: 420px;
-            border: 2px solid black;
-            margin: 20px auto;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 5px 5px 5px #888;
-        }
-        #display {
-            width: 95%;
-            height: 50px;
-            margin: 0 auto;
-            margin-bottom: 20px;
-            padding: 10px;
-            font-size: 20px;
-            text-align: right;
-            box-shadow: 2px 2px 2px #888;
-        }
-        .button {
-            width: 70px;
-            height: 70px;
-            margin: 10px;
-            font-size: 20px;
-            border-radius: 10px;
-            box-shadow: 2px 2px 2px #888;
-        }
-        .number {
-            background-color: #eee;
-        }
-        .operator {
-            background-color: #ffa500;
-        }
-        .equal {
-            background-color: #5cb85c;
-            color: white;
-        }
-    </style>
+	<title>在线计算器</title>
+	<meta charset="utf-8">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			font-size: 14px;
+			background-color: #f0f0f0;
+		}
+		#calculator {
+			width: 300px;
+			margin: 0 auto;
+			background-color: #fff;
+			padding: 20px;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+		}
+		h1 {
+			font-size: 24px;
+			font-weight: bold;
+			text-align: center;
+			margin-top: 0;
+		}
+		input[type="button"] {
+			width: 60px;
+			height: 40px;
+			margin: 5px;
+			font-size: 18px;
+			border: none;
+			background-color: #ccc;
+			cursor: pointer;
+		}
+		input[type="text"] {
+			width: 240px;
+			height: 40px;
+			margin: 5px;
+			font-size: 24px;
+			border: none;
+			background-color: #fff;
+			text-align: right;
+			padding: 5px;
+		}
+	</style>
 </head>
 <body>
-    <div id="calculator">
-        <div id="display">0</div>
-        <div>
-            <button class="button number" onclick="input('7')">7</button>
-            <button class="button number" onclick="input('8')">8</button>
-            <button class="button number" onclick="input('9')">9</button>
-            <button class="button operator" onclick="input('/')">÷</button>
-        </div>
-        <div>
-            <button class="button number" onclick="input('4')">4</button>
-            <button class="button number" onclick="input('5')">5</button>
-            <button class="button number" onclick="input('6')">6</button>
-            <button class="button operator" onclick="input('*')">×</button>
-        </div>
-        <div>
-            <button class="button number" onclick="input('1')">1</button>
-            <button class="button number" onclick="input('2')">2</button>
-            <button class="button number" onclick="input('3')">3</button>
-            <button class="button operator" onclick="input('-')">-</button>
-        </div>
-        <div>
-            <button class="button number" onclick="input('(')">(</button>
-            <button class="button number" onclick="input('0')">0</button>
-            <button class="button number" onclick="input(')')">)</button>
-            <button class="button operator equal" onclick="calculate()">=</button>
-        </div>
-        <div>
-            <button class="button operator" onclick="input('+')">+</button>
-            <button class="button operator" onclick="input('.')">.</button>
-            <button class="button operator" onclick="clearDisplay()">C</button>
-        </div>
-    </div>
-
-    <script type="text/javascript">
-        // 输入框对象
-        var display = document.getElementById('display');
-        // 当前输入的表达式
-        var expression = '';
-        // 运算结果
-        var result = '';
-
-       
+	<div id="calculator">
+		<h1>在线计算器</h1>
+		<input type="text" id="result" value="">
+		<table>
+			<tr>
+				<td><input type="button" value="("></td>
+				<td><input type="button" value=")"></td>
+				<td><input type="button" value="CE"></td>
+				<td><input type="button" value="C"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="7"></td>
+				<td><input type="button" value="8"></td>
+				<td><input type="button" value="9"></td>
+				<td><input type="button" value="/"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="4"></td>
+				<td><input type="button" value="5"></td>
+				<td><input type="button" value="6"></td>
+				<td><input type="button" value="*"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="1"></td>
+				<td><input type="button" value="2"></td>
+				<td><input type="button" value="3"></td>
+				<td><input type="button" value="-"></td>
+			</tr>
+			<tr>
+				<td><input type
