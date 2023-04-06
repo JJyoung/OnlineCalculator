@@ -89,3 +89,104 @@
         expression = '';
         document.getElementById('result').value = '';
       }
+      function evaluate(expression) {
+        let result = 0;
+        let operator = '+';
+        let i = 0;
+        while (i < expression.length) {
+          const char = expression[i];
+          if (char === '(') {
+            let j = i + 1;
+            let count = 1;
+            while (j < expression.length) {
+              if (expression[j] === '(') {
+                count++;
+              } else if (expression[j] === ')') {
+                count--;
+                if (count === 0) {
+                  break;
+                }
+              }
+              j++;
+            }
+            const subExpression = expression.substring(i + 1, j);
+            const subResult = evaluate(subExpression);
+            if (operator === '+') {
+              result += subResult;
+            } else if (operator === '-') {
+              result -= subResult;
+            } else if (operator === '*') {
+              result *= subResult;
+            } else if (operator === '/') {
+              result /= subResult;
+            }
+            i = j + 1;
+            if (i < expression.length) {
+              operator = expression[i];
+            }
+          } else if (char === '+' || char === '-' || char === '*' || char === '/') {
+            operator = char;
+            i++;
+          } else {
+            let j = i + 1;
+            while (j < expression.length && !isNaN(expression[j])) {
+              j++;
+            }
+            const number = parseFloat(expression.substring(i, j));
+            if (operator === '+') {
+              result += number;
+            } else if (operator === '-') {
+              result -= number;
+            } else if (operator === '*') {
+              result *= number;
+            } else if (operator === '/') {
+              result /= number;
+            }
+            i = j;
+            if (i < expression.length) {
+              operator = expression[i];
+            }
+          }
+        }
+        return result;
+      }
+      // 将所有小数点后保留两位小数
+      expression = expression.replace(/(\d+\.\d+)|(\.\d+)/g, (match) => {
+        return parseFloat(match).toFixed(2);
+      });
+
+      // 计算结果
+      function calculate() {
+        try {
+          // 删除表达式中的空格
+          expression = expression.replace(/\s/g, '');
+          // 添加乘法运算符
+          expression = expression.replace(/(\d+)(\()|(\))(\d+)/g, '$1*$2');
+          const result = evaluate(expression);
+          expression = result.toString();
+          // 将结果保留两位小数
+          result.toFixed(2);
+          document.getElementById('result').value = result;
+        } catch (error) {
+          expression = '';
+          document.getElementById('result').value = '错误';
+        }
+      }
+
+      //    // 计算结果   不兼容ie8
+      // function calculate() {
+      //   try {
+      //     const result = eval(expression);
+      //     expression = result.toString();
+      //     document.getElementById('result').value = result;
+      //   } catch (error) {
+      //     expression = '';
+      //     document.getElementById('result').value = '错误';
+      //   }
+      // }
+    </script>
+  </body>
+</html>
+
+
+
